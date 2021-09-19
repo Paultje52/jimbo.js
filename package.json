@@ -1,0 +1,25 @@
+{
+  "name": "jimbo.js",
+  "version": "0.0.0",
+  "description": "A simple yet advanced discord.js framework",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paultje52/jimbo.js.git"
+  },
+  "keywords": [
+    "nodejs",
+    "discord",
+    "discordjs",
+    "discord-framework"
+  ],
+  "author": "Paultje52",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Paultje52/jimbo.js/issues"
+  },
+  "homepage": "https://github.com/Paultje52/jimbo.js#readme"
+}
