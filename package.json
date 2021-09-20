@@ -26,5 +26,8 @@
   "homepage": "https://github.com/Paultje52/jimbo.js#readme",
   "dependencies": {
     "discord.js": "13.1.0"
+  },
+  "devDependencies": {
+    "tsc": "2.0.3"
   }
 }
