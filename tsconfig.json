@@ -1,6 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "moduleResolution": "Node"
-  }
+    "target": "ES6",
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "downlevelIteration": true,
+    "module": "CommonJS",
+    "declaration": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.json", "src/**/*"],
 }
