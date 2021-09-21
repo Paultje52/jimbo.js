@@ -6,7 +6,8 @@ import loadDir from "../util/loadDir";
 export default class CommandLoader implements CommandLoader {
   private directory: string;
 
-  constructor(directory: string) {
+  constructor(directory?: string) {
+    if (!directory) directory = "commands";
     this.directory = join(process.cwd(), directory);
   }
 
