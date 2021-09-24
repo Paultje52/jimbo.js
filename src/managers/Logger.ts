@@ -9,6 +9,7 @@ export default class Logger extends EventEmitter implements LoggerImplementation
 
   private writeFileStream: WriteStream;
   private colors: LoggerColor;
+  public ready: boolean = true;
 
   constructor(loggerOptions?: LoggerOptions) {
     super();
@@ -16,11 +17,16 @@ export default class Logger extends EventEmitter implements LoggerImplementation
 
     if (!loggerOptions.writeFile) loggerOptions.writeFile = false;
     if (loggerOptions.writeFile) {
+      this.ready = false;
+
       this.initializeWriteFileStream(loggerOptions.writeFile).then((writeStream) => {
         this.writeFileStream = writeStream;
         this.info("Logger filestream initialized!");
+        this.ready = true;
+
       }).catch(() => {
         this.error(`Cannot initialize filestream for ${loggerOptions.writeFile}, folder does not exist!`);
+        this.ready = true;
       });
     }
 
@@ -31,7 +37,7 @@ export default class Logger extends EventEmitter implements LoggerImplementation
     this.colors = loggerOptions.color;
 
     this.initMainListener();
-    this.info("Logger manager ready to start logging!"+ loggerOptions.writeFile ? `\nInitializing filestream logger...` : "");
+    this.info("Logger manager ready to start logging!");
   }
 
   private initMainListener(): void {

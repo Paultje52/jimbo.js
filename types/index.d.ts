@@ -32,6 +32,7 @@ export declare class Logger {
   error: (error: string | Error) => void;
   warn: (warn: string) => void;
   info: (log: string) => void;
+  ready: boolean;
 }
 type filename = string;
 export type LoggerOptions = {

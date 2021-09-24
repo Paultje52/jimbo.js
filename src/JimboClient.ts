@@ -17,16 +17,21 @@ export default class JimboClient extends Client {
     });
 
     this.managers = managers || {};
-    this.ensureManagers();
+    this.ensureManagers().then(() => {
       this.getLogger().info("Loaded managers!");
 
-    this.start();
+      this.start();
+    });
   }
   
   // Ensure managers
-  private ensureManagers(): void {
-    if (!this.managers.CommandLoader) this.managers.CommandLoader = new managers.CommandLoader("commands");
+  private async ensureManagers(): Promise<void> {
     if (!this.managers.Logger) this.managers.Logger = new managers.Logger();
+    while (!this.managers.Logger.ready) {
+      await promiseTimeout(100);
+    }
+
+    if (!this.managers.CommandLoader) this.managers.CommandLoader = new managers.CommandLoader("commands");
   }
 
   // Get the logger
@@ -39,6 +44,7 @@ export default class JimboClient extends Client {
     this.commands = await this.loadCommands();
 
     this.ready = true;
+    this.getLogger().info("JimboClient is ready for login!");
   }
 
   // Load the commands using the CommandLoader manager
