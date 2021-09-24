@@ -37,7 +37,7 @@ export default class Logger extends EventEmitter implements LoggerImplementation
     this.colors = loggerOptions.color;
 
     this.initMainListener();
-    this.info("Logger manager ready to start logging!");
+    this.info(`Logger manager ready to start logging! ${loggerOptions.writeFile ? `\nInitializing filestream logger...` : ""}`);
   }
 
   private initMainListener(): void {
