@@ -17,19 +17,40 @@ export default class CommandLoader implements CommandLoader {
     let commands: Command[] = [];
     for (let file of files) {
       let cmd = this.loadCommand(file, client);
-      commands.push(cmd);
+      if (!cmd) continue;
 
+      commands.push(cmd);
       client.getLogger().info(`Loaded command ${cmd.name}`);
     }
     return commands;
   }
 
   private loadCommand(file: string, client: JimboClient): Command {
+    try {
+      require(file);
+    } catch(e) {
+      client.getLogger().error(`Cannot load command ${file}: ${e}`);
+      return;
+    }
+
     let cmd = require(file);
     if (typeof cmd !== "function" && typeof cmd.default === "function") cmd = cmd.default;
+
+    if (typeof cmd !== "function") {
+      client.getLogger().error(`Cannot load command ${file}: No class export!`);
+      return;
+    }
+
+    let command = new cmd(client);
+
+    try {
+      command.setDir(file);
+    } catch(e) {
+      if (e.toString() === "TypeError: command.setDir is not a function") client.getLogger().error(`Cannot load command ${file}: Methods aren't implemented properly. Did you extend the Jimbo.js Command class?`);
+      else client.getLogger().error(`Cannot load command ${file}: ${e}`);
+      return;
+    }
     
-    let command: Command = new cmd(client);
-    command.setDir(file);
     return command;
   }
 
