@@ -2,6 +2,7 @@ import { Client, Intents, IntentsString, RecursiveReadonlyArray } from "discord.
 import { managers } from ".";
 import type { intents, ClientManagers, Command, CommandObject, Logger as LoggerImplementation } from "../types/index";
 import promiseTimeout from "./util/promiseTimeout";
+import { blue } from "chalk";
 
 export default class JimboClient extends Client {
 
@@ -50,7 +51,7 @@ export default class JimboClient extends Client {
   // Load the commands using the CommandLoader manager
   private async loadCommands(): Promise<CommandObject> {
     let commands: Command[] = await this.managers.CommandLoader.loadCommands(this);
-      this.getLogger().success(`Loaded ${commands.length} ${commands.length === 1 ? "command" : "commands"}!`);
+      this.getLogger().success(`Loaded ${blue(commands.length)} ${commands.length === 1 ? "command" : "commands"}!`);
     // Function to convert the command array to an object with the command name as the key and the command as the value
     return commands.reduce(
       (object: CommandObject, value: Command) => ({ ...object, [value.name]: value }), 

@@ -2,6 +2,7 @@ import { join } from "path";
 import JimboClient from "..";
 import { Command } from "../../types";
 import loadDir from "../util/loadDir";
+import { blue } from "chalk";
 
 export default class CommandLoader implements CommandLoader {
   private directory: string;
@@ -20,7 +21,7 @@ export default class CommandLoader implements CommandLoader {
       if (!cmd) continue;
 
       commands.push(cmd);
-      client.getLogger().info(`Loaded command ${cmd.name}`);
+      client.getLogger().info(`Loaded command ${blue(cmd.name)}`);
     }
     return commands;
   }
