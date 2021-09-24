@@ -4,6 +4,7 @@ import { createWriteStream, WriteStream, promises as fsPromises, constants as fs
 import { join } from "path"
 import moment = require("moment");
 import { hex as chalkHex } from "chalk";
+import * as stripColor from "strip-color";
 
 export default class Logger extends EventEmitter implements LoggerImplementation {
 
@@ -44,7 +45,7 @@ export default class Logger extends EventEmitter implements LoggerImplementation
   private initMainListener(): void {
     this.onLog("*", (data, type) => {
       console.log(`${chalkHex("#00ffff")(`[${this.getDateFormat()}]`)} ${chalkHex(this.colors[type])(`[${type.toUpperCase()}]`)} ${data}`);
-      if (typeof this.writeFileStream !== "undefined") this.writeFileStream.write(`\n[${this.getDateFormat()}] [${type.toUpperCase()}] ${data}`);
+      if (typeof this.writeFileStream !== "undefined") this.writeFileStream.write(`\n[${this.getDateFormat()}] [${type.toUpperCase()}] ${stripColor(data)}`);
     });
   }
 

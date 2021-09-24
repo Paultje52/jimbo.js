@@ -27,7 +27,8 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "discord.js": "13.1.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "strip-color": "^0.1.0"
   },
   "devDependencies": {
     "tsc": "2.0.3"
