@@ -1,6 +1,6 @@
 import { Client, Intents, IntentsString, RecursiveReadonlyArray } from "discord.js";
-import { CommandLoader } from ".";
-import type { intents, ClientManagers, Command, CommandObject } from "../types/index";
+import { managers } from ".";
+import type { intents, ClientManagers, Command, CommandObject, Logger as LoggerImplementation } from "../types/index";
 import promiseTimeout from "./util/promiseTimeout";
 
 export default class JimboClient extends Client {
@@ -18,13 +18,20 @@ export default class JimboClient extends Client {
 
     this.managers = managers || {};
     this.ensureManagers();
+      this.getLogger().info("Loaded managers!");
 
     this.start();
   }
   
   // Ensure managers
   private ensureManagers(): void {
-    if (!this.managers.CommandLoader) this.managers.CommandLoader = new CommandLoader("commands");
+    if (!this.managers.CommandLoader) this.managers.CommandLoader = new managers.CommandLoader("commands");
+    if (!this.managers.Logger) this.managers.Logger = new managers.Logger();
+  }
+
+  // Get the logger
+  public getLogger(): LoggerImplementation {
+    return this.managers.Logger;
   }
 
   // Start the client
@@ -37,6 +44,7 @@ export default class JimboClient extends Client {
   // Load the commands using the CommandLoader manager
   private async loadCommands(): Promise<CommandObject> {
     let commands: Command[] = await this.managers.CommandLoader.loadCommands(this);
+      this.getLogger().info(`Loaded ${commands.length} ${commands.length === 1 ? "command" : "commands"}!`);
     // Function to convert the command array to an object with the command name as the key and the command as the value
     return commands.reduce(
       (object: CommandObject, value: Command) => ({ ...object, [value.name]: value }), 

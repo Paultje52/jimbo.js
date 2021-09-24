@@ -16,7 +16,10 @@ export default class CommandLoader implements CommandLoader {
 
     let commands: Command[] = [];
     for (let file of files) {
-      commands.push(this.loadCommand(file, client));
+      let cmd = this.loadCommand(file, client);
+      commands.push(cmd);
+
+      client.getLogger().info(`Loaded command ${cmd.name}`);
     }
     return commands;
   }
