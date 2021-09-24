@@ -18,7 +18,7 @@ export default class JimboClient extends Client {
 
     this.managers = managers || {};
     this.ensureManagers().then(() => {
-      this.getLogger().info("Loaded managers!");
+      this.getLogger().success("Loaded managers!");
 
       this.start();
     });
@@ -50,7 +50,7 @@ export default class JimboClient extends Client {
   // Load the commands using the CommandLoader manager
   private async loadCommands(): Promise<CommandObject> {
     let commands: Command[] = await this.managers.CommandLoader.loadCommands(this);
-      this.getLogger().info(`Loaded ${commands.length} ${commands.length === 1 ? "command" : "commands"}!`);
+      this.getLogger().success(`Loaded ${commands.length} ${commands.length === 1 ? "command" : "commands"}!`);
     // Function to convert the command array to an object with the command name as the key and the command as the value
     return commands.reduce(
       (object: CommandObject, value: Command) => ({ ...object, [value.name]: value }), 

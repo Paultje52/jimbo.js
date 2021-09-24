@@ -32,6 +32,7 @@ export declare class Logger {
   error: (error: string | Error) => void;
   warn: (warn: string) => void;
   info: (log: string) => void;
+  success: (log: string) => void;
   ready: boolean;
 }
 type filename = string;
@@ -43,5 +44,6 @@ export type LoggerColor = {
   error?: string;
   warn?: string;
   info?: string;
+  success?: string
 };
-export type LoggerEvent = "error" | "warn" | "info" | "*";
+export type LoggerEvent = "error" | "warn" | "info" | "success" | "*";

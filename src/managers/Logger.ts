@@ -21,7 +21,7 @@ export default class Logger extends EventEmitter implements LoggerImplementation
 
       this.initializeWriteFileStream(loggerOptions.writeFile).then((writeStream) => {
         this.writeFileStream = writeStream;
-        this.info("Logger filestream initialized!");
+        this.success("Logger filestream initialized!");
         this.ready = true;
 
       }).catch(() => {
@@ -34,6 +34,7 @@ export default class Logger extends EventEmitter implements LoggerImplementation
     if (!loggerOptions.color.error) loggerOptions.color.error = "#ee4b2b";
     if (!loggerOptions.color.warn) loggerOptions.color.warn = "#e49b0f";
     if (!loggerOptions.color.info) loggerOptions.color.info = "#89cff0";
+    if (!loggerOptions.color.success) loggerOptions.color.success = "#228b22";
     this.colors = loggerOptions.color;
 
     this.initMainListener();
@@ -87,6 +88,10 @@ export default class Logger extends EventEmitter implements LoggerImplementation
   public info(info: string): void {
     this.emitData("info", info, "info");
     this.emitData("*", info, "info");
+  }
+  public success(info: string): void {
+    this.emitData("success", info, "success");
+    this.emitData("*", info, "success");
   }
 
   private emitData(event: string, data: string | Error, eventType: LoggerEvent) {
