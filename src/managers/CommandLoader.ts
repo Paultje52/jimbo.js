@@ -1,10 +1,10 @@
 import { join } from "path";
 import JimboClient from "..";
-import { Command } from "../../types";
+import { Command, CommandLoader as CommandLoaderType } from "../../types";
 import loadDir from "../util/loadDir";
 import { blue } from "chalk";
 
-export default class CommandLoader implements CommandLoader {
+export default class CommandLoader implements CommandLoaderType {
   private directory: string;
 
   constructor(directory?: string) {
