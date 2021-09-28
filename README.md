@@ -18,7 +18,7 @@ new JimboClient().waitUntilReady().then((client) => {
 ```
 ### A file in `commands` directory
 ```ts
-import JimboClient, { Command } from "../../src";
+import JimboClient, { Command } from "jimbo.js";
 
 export default class PingCommand extends Command {
   constructor(client: JimboClient) {
