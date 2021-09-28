@@ -5,6 +5,5 @@ new JimboClient([], {
   Logger: new managers.Logger({ writeFile: "jimbo.log" })
 })
 .waitUntilReady().then((client) => {
-  client.getLogger().info("Hello there!");
-  // client.login("TOKEN");
+  client.login("TOKEN");
 });

@@ -84,5 +84,19 @@ export default class JimboClient extends Client {
       resolve(this);
     });
   }
+
+  // Login function
+  public login(token?: string): Promise<string> {
+    return new Promise(async (resolve) => {
+      this.on("ready", () => {
+        this.getLogger().success(`Jimbo is logged in with ${this.user.username} (${this.user.id}) in ${this.guilds.cache.size} ${this.guilds.cache.size === 1 ? "guild" : "guilds"}!`);
+        resolve(token);
+      });
+
+      this.getLogger().info("Logging in...");
+      await Client.prototype.login.call(this, token);
+      this.getLogger().info("Jimbo logged in, waiting for ready...");
+    });
+  }
   
 }
