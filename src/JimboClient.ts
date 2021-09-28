@@ -1,6 +1,6 @@
 import { Client, Intents, IntentsString, RecursiveReadonlyArray } from "discord.js";
 import { managers } from ".";
-import type { intents, ClientManagers, Command, CommandObject, Logger as LoggerImplementation } from "../types/index";
+import type { intents, ClientManagers, Command, CommandObject, EventsObject, Logger as LoggerImplementation, Event } from "../types/index";
 import promiseTimeout from "./util/promiseTimeout";
 import { blue } from "chalk";
 
@@ -8,6 +8,7 @@ export default class JimboClient extends Client {
 
   private managers: ClientManagers;
   private commands: CommandObject;
+  private events: EventsObject;
 
   private ready: boolean = false;
 
@@ -33,6 +34,7 @@ export default class JimboClient extends Client {
     }
 
     if (!this.managers.CommandLoader) this.managers.CommandLoader = new managers.CommandLoader("commands");
+    if (!this.managers.EventLoader) this.managers.EventLoader = new managers.EventLoader("events");
   }
 
   // Get the logger
@@ -43,8 +45,11 @@ export default class JimboClient extends Client {
   // Start the client
   private async start(): Promise<void> {
     this.commands = await this.loadCommands();
+    this.events = await this.loadEvents();
+    this.managers.EventLoader.activateEvents(this, this.getEventsArray());
 
     this.ready = true;
+    this.emit("jimbo.ready", null);
     this.getLogger().info("JimboClient is ready for login!");
   }
 
@@ -58,6 +63,17 @@ export default class JimboClient extends Client {
     {}) as CommandObject;
   }
 
+  // Load the events using the EventLoader manager
+  private async loadEvents(): Promise<EventsObject> {
+    let events: Event[] = await this.managers.EventLoader.loadEvents(this);
+      this.getLogger().success(`Loaded ${blue(events.length)} ${events.length === 1 ? "event" : "events"}!`);
+    // Function to convert the event array to an object with the event dir as the key and the event as the value
+    return events.reduce(
+      (object: EventsObject, value: Event) => ({ ...object, [value.getDir()]: value }),
+    {}) as EventsObject;
+  }
+
+
   // Get command functions
   public getCommands(): CommandObject {
     return this.commands;
@@ -67,6 +83,17 @@ export default class JimboClient extends Client {
   }
   public getCommandsArray(): Command[] {
     return Object.values(this.commands);
+  }
+
+  // Get event functions
+  public getEvents(): EventsObject {
+    return this.events;
+  }
+  public getEvent(dir: string): Event | undefined {
+    return this.events[dir];
+  }
+  public getEventsArray(): Event[] {
+    return Object.values(this.events);
   }
 
   // Ready functions

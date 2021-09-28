@@ -1,8 +1,24 @@
-import { ColorResolvable } from "discord.js";
 import JimboClient from "../src";
 
+// Client
 export type intents = "GUILDS" | "GUILD_MEMBERS" | "GUILD_BANS" | "GUILD_EMOJIS_AND_STICKERS" | "GUILD_INTEGRATIONS" | "GUILD_WEBHOOKS" | "GUILD_INVITES" | "GUILD_VOICE_STATES" | "GUILD_PRESENCES" | "GUILD_MESSAGES" | "GUILD_MESSAGE_REACTIONS" | "GUILD_MESSAGE_TYPING" | "DIRECT_MESSAGES" | "DIRECT_MESSAGE_REACTIONS" | "DIRECT_MESSAGE_TYPING";
+export type ClientManagers = {
+  Logger?: Logger;
+  CommandLoader?: CommandLoader;
+  EventLoader?: EventLoader;
+};
 
+// Command
+export declare class CommandLoader {
+  loadCommands(client: JimboClient): Promise<Command[]>;
+}
+export type BaseCommandSettings = {
+  name: string;
+  description: string;
+};
+export type CommandObject = {
+  [commandName: string]: Command;
+};
 export declare class Command {
   name: string;
   description: string;
@@ -11,23 +27,27 @@ export declare class Command {
   getDir: () => string;
 }
 
-export declare class CommandLoader {
-  loadCommands(client: JimboClient): Promise<Command[]>;
+// Event
+export declare class Event {
+  run: (...args: any) => Promise<void>;
+  setDir: (dir: string) => void;
+  getDir: () => string;
+  getEvent: () => string;
+  once: boolean;
 }
-export type ClientManagers = {
-  CommandLoader?: CommandLoader;
-  Logger?: Logger;
-};
+export declare class EventLoader {
+  loadEvents(client: JimboClient): Promise<Event[]>;
+  activateEvents(client: JimboClient, events: Event[]): Promise<void>;
+}
+export type EventsObject = {
+  [eventDir: string]: Event;
+}
+export type EventOptions = {
+  event: string;
+  once?: boolean;
+}
 
-export type BaseCommandSettings = {
-  name: string;
-  description: string;
-};
-
-export type CommandObject = {
-  [commandName: string]: Command;
-};
-
+// Logger
 export declare class Logger {
   error: (error: string | Error) => void;
   warn: (warn: string) => void;
