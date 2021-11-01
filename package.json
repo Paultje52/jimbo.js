@@ -26,7 +26,7 @@
   "homepage": "https://github.com/Paultje52/jimbo.js#readme",
   "dependencies": {
     "chalk": "^4.1.2",
-    "discord.js": "13.1.0",
+    "discord.js": "13.3.0",
     "moment": "^2.29.1",
     "strip-color": "^0.1.0"
   },
