@@ -1,6 +1,9 @@
 # Jimbo.js
 A simple yet advanced discord.js framework!
 
+> This project is on a temporary on hold, because I'm waiting for Discord to release new updates to slash commands, including the permission system.<br>
+> Development will probably resume around march/april. 
+
 > **Note:** Jimbo.js is still in development and may not be stable or finished!<br>
 > Install the alpha via NPM: `npm i github:Paultje52/jimbo.js`
 
